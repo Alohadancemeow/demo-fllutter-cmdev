@@ -1,6 +1,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:demo_fllutter_cmdev/config/theme.dart' as customTheme;
 import 'package:demo_fllutter_cmdev/constants/assets.dart';
+import 'package:demo_fllutter_cmdev/pages/login/single_sign_on.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -65,7 +66,10 @@ class _LoginPageState extends State<LoginPage> {
                   buildCardForm(),
                   submitButton(),
                 ],
-              )
+              ),
+              Text('Forgot password'),
+              SingleSignOn(),
+              Text('Register'),
             ],
           ),
         ],
