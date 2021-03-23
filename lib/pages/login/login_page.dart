@@ -1,5 +1,6 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:demo_fllutter_cmdev/config/theme.dart' as customTheme;
+import 'package:demo_fllutter_cmdev/config/route.dart' as myRoute;
 import 'package:demo_fllutter_cmdev/constants/assets.dart';
 import 'package:demo_fllutter_cmdev/pages/login/single_sign_on.dart';
 import 'package:flutter/material.dart';
@@ -246,34 +247,7 @@ class _LoginPageState extends State<LoginPage> {
           // String password = usernameController.text;
 
           if (formKey.currentState.validate()) {
-            // seve text
-            formKey.currentState.save();
-            // print(usernameController.text);
-            // print(passwordController.text);
-
-            Flushbar(
-              message: 'Loadding ...',
-              showProgressIndicator: true,
-              flushbarPosition: FlushbarPosition.TOP,
-              flushbarStyle: FlushbarStyle.GROUNDED,
-            ).show(context);
-
-            Future.delayed(Duration(seconds: 2)).then((value) => {
-                  Navigator.pop(context),
-                  Flushbar(
-                    margin: EdgeInsets.all(8.0),
-                    message: 'Login successfully',
-                    icon: Icon(
-                      Icons.info_outline,
-                      size: 28.0,
-                      color: Colors.blue[300],
-                    ),
-                    duration: Duration(seconds: 2),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ).show(context).then((value) =>
-                      // reset form
-                      formKey.currentState.reset())
-                });
+            showFlushBarAndSendToHomePage();
           }
         },
       ),
@@ -333,6 +307,62 @@ class _LoginPageState extends State<LoginPage> {
           fontWeight: FontWeight.normal,
         ),
       ),
+    );
+  }
+
+  // # This method is for showing flushbar and send to home.
+  void showFlushBarAndSendToHomePage() {
+    // #1 seve text.
+    formKey.currentState.save();
+    // print(usernameController.text);
+    // print(passwordController.text);
+
+    // #2 show flushbar : loading..
+    Flushbar(
+      message: 'Loadding ...',
+      showProgressIndicator: true,
+      flushbarPosition: FlushbarPosition.TOP,
+      flushbarStyle: FlushbarStyle.GROUNDED,
+    ).show(context);
+
+    // #3 Delayed 2 sec, then pop flushbar out.
+    Future.delayed(Duration(seconds: 2)).then(
+      (value) => {
+        Navigator.pop(context),
+
+        // #4 reset form.
+        formKey.currentState.reset(),
+
+        // #5 show flushbar : success 2 sec.
+        Flushbar(
+          margin: EdgeInsets.all(8.0),
+          message: 'Login successfully',
+          icon: Icon(
+            Icons.info_outline,
+            size: 28.0,
+            color: Colors.blue[300],
+          ),
+          duration: Duration(seconds: 2),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ).show(context).then(
+              (value) => {
+                // navigate to Homepage
+                // Navigator.pushReplacement(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => MyHomePage(),
+                //   ),
+                // ),
+
+                // #6 push to home page.
+                Navigator.pushReplacementNamed(
+                  context,
+                  myRoute.Route.home,
+                  arguments: {'title': 'My home page'},
+                )
+              },
+            ),
+      },
     );
   }
 }

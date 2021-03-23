@@ -1,3 +1,4 @@
+import 'package:demo_fllutter_cmdev/config/route.dart' as myRoute;
 import 'package:demo_fllutter_cmdev/pages/login/login_page.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      //set route here
+      routes: myRoute.Route.getRoute(),
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
