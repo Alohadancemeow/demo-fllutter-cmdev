@@ -57,20 +57,26 @@ class _LoginPageState extends State<LoginPage> {
               gradient: customTheme.ThemeBG.gradient,
             ),
           ),
-          Column(
-            children: [
-              imageHeader(),
-              Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  buildCardForm(),
-                  submitButton(),
-                ],
-              ),
-              Text('Forgot password'),
-              SingleSignOn(),
-              Text('Register'),
-            ],
+          // Solving overflow error
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                imageHeader(),
+                Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    buildCardForm(),
+                    submitButton(),
+                  ],
+                ),
+                SizedBox(height: 15),
+                _buildTextButton('Forgot password', onPressed: () {}),
+                SingleSignOn(),
+                SizedBox(height: 10),
+                _buildTextButton("Don't have an account ?", onPressed: () {}),
+                SizedBox(height: 80),
+              ],
+            ),
           ),
         ],
       ),
@@ -252,26 +258,22 @@ class _LoginPageState extends State<LoginPage> {
               flushbarStyle: FlushbarStyle.GROUNDED,
             ).show(context);
 
-            Future.delayed(Duration(seconds: 2)).then(
-              (value) => {
-                Navigator.pop(context),
-
-                Flushbar(
-                  margin: EdgeInsets.all(8.0),
-                  message: 'Login successfully',
-                  icon: Icon(
-                    Icons.info_outline,
-                    size: 28.0,
-                    color: Colors.blue[300],
-                  ),
-                  duration: Duration(seconds: 3),
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ).show(context),
-
-                // reset form
-                formKey.currentState.reset()
-              },
-            );
+            Future.delayed(Duration(seconds: 2)).then((value) => {
+                  Navigator.pop(context),
+                  Flushbar(
+                    margin: EdgeInsets.all(8.0),
+                    message: 'Login successfully',
+                    icon: Icon(
+                      Icons.info_outline,
+                      size: 28.0,
+                      color: Colors.blue[300],
+                    ),
+                    duration: Duration(seconds: 2),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ).show(context).then((value) =>
+                      // reset form
+                      formKey.currentState.reset())
+                });
           }
         },
       ),
@@ -310,6 +312,26 @@ class _LoginPageState extends State<LoginPage> {
         begin: const FractionalOffset(0, 0),
         end: const FractionalOffset(1.0, 1.0),
         stops: [0.0, 1.0],
+      ),
+    );
+  }
+
+  // # This method is for building TextButtons.
+  TextButton _buildTextButton(
+    String text, {
+    // Optional param.
+    @required VoidCallback onPressed,
+    double fontSize = 16,
+  }) {
+    return TextButton(
+      onPressed: onPressed,
+      child: Text(
+        text,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: fontSize,
+          fontWeight: FontWeight.normal,
+        ),
       ),
     );
   }
