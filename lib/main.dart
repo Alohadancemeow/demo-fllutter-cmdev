@@ -1,9 +1,7 @@
 import 'package:demo_fllutter_cmdev/config/route.dart' as myRoute;
-import 'package:demo_fllutter_cmdev/constants/setting.dart';
-import 'package:demo_fllutter_cmdev/pages/home/home_page.dart';
 import 'package:demo_fllutter_cmdev/pages/login/login_page.dart';
+import 'package:demo_fllutter_cmdev/pages/pages_index.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,7 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // home: MyHomePage(title: 'Demo Flutter : CMDev'),
-      home: LoginPage(),
+      home: MyHomePage(),
 
       // ! Not success
       // home: FutureBuilder<SharedPreferences>(

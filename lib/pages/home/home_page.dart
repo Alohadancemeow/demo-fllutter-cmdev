@@ -4,9 +4,9 @@ import 'package:demo_fllutter_cmdev/pages/home/drawer.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
-  // MyHomePage({Key key, this.title = 'Homepage'}) : super(key: key);
+  MyHomePage({Key key, this.title = 'Homepage'}) : super(key: key);
 
-  // final String title;
+  final String title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -16,23 +16,23 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     // # Recieve arguments from login page.
-    final Map<Object, Object> arguments =
-        ModalRoute.of(context).settings.arguments;
+    // final Map<Object, Object> arguments =
+    //     ModalRoute.of(context).settings.arguments;
 
-    // # Set arguments to models.
-    final models = Map<String, Object>.from(arguments);
+    // // # Set arguments to models.
+    // final models = Map<String, Object>.from(arguments);
 
-    // # Get key from models, then set to title.
-    var title = '';
-    // # is : smart cast.
-    if (models['title'] is String) {
-      // set title key's value to title variable.
-      title = models['title'];
-    }
+    // // # Get key from models, then set to title.
+    // var title = '';
+    // // # is : smart cast.
+    // if (models['title'] is String) {
+    //   // set title key's value to title variable.
+    //   title = models['title'];
+    // }
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(widget.title),
       ),
       drawer: CustomDrawer(),
       body: Column(

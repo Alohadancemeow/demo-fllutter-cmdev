@@ -1,3 +1,5 @@
+import 'package:badges/badges.dart';
+import 'package:demo_fllutter_cmdev/models/drawer_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -12,6 +14,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
     return Drawer(
       child: Column(
         children: [
+          _buildProfile(),
+          ..._buildMainMenu(),
           Spacer(),
           ListTile(
             leading: FaIcon(
@@ -41,8 +45,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 Navigator.of(context).pop();
               },
             ),
-            FlatButton(
-              textColor: Colors.red,
+            TextButton(
               child: Text('Logout'),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -52,5 +55,57 @@ class _CustomDrawerState extends State<CustomDrawer> {
         );
       },
     );
+  }
+
+  // # This method is for build drawer header.
+  _buildProfile() {
+    return UserAccountsDrawerHeader(
+      accountName: Text('text header'),
+      accountEmail: Text('email@gmail.com'),
+      currentAccountPicture: CircleAvatar(
+        backgroundImage: NetworkImage(
+            'https://cdn-images-1.medium.com/max/140/1*X5PBTDQQ2Csztg3a6wofIQ@2x.png'),
+      ),
+    );
+  }
+
+  // # This method id for building drawer's menu.
+  _buildMainMenu() {
+    return MenuViewModel()
+        .items
+        // map = getting model's data,
+        // to create listtiles.
+        .map(
+          (item) => ListTile(
+            title: Text(
+              item.title,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+            ),
+            leading: Badge(
+              // show badge inbox only.
+              showBadge: item.icon == FontAwesomeIcons.inbox,
+              badgeColor: Colors.red,
+              badgeContent: Text(
+                '99',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                ),
+              ),
+              child: FaIcon(
+                item.icon,
+                color: item.iconColor,
+                size: 20.0,
+              ),
+            ),
+            onTap: () {
+              item.onTap(context);
+            },
+          ),
+        )
+        .toList();
   }
 }
