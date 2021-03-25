@@ -1,5 +1,6 @@
 import 'package:demo_fllutter_cmdev/config/route.dart' as myRoute;
 import 'package:demo_fllutter_cmdev/constants/assets.dart';
+import 'package:demo_fllutter_cmdev/pages/home/drawer.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -33,6 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(title),
       ),
+      drawer: CustomDrawer(),
       body: Column(
         children: [
           Image.asset(Assets.LOGO_IMAGE),

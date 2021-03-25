@@ -2,10 +2,12 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:demo_fllutter_cmdev/config/theme.dart' as customTheme;
 import 'package:demo_fllutter_cmdev/config/route.dart' as myRoute;
 import 'package:demo_fllutter_cmdev/constants/assets.dart';
+import 'package:demo_fllutter_cmdev/constants/setting.dart';
 import 'package:demo_fllutter_cmdev/pages/login/single_sign_on.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -311,11 +313,16 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   // # This method is for showing flushbar and send to home.
-  void showFlushBarAndSendToHomePage() {
+  Future<void> showFlushBarAndSendToHomePage() async {
     // #1 seve text.
     formKey.currentState.save();
     // print(usernameController.text);
     // print(passwordController.text);
+
+    // ! shared preferences NOT success
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // prefs.setString(Setting.TOKEN_PREF, "safdfdlgklfdgklfdghghghghfgfghfdh");
+    // prefs.setString(Setting.USERNAME_PREF, usernameController.text);
 
     // #2 show flushbar : loading..
     Flushbar(
@@ -346,6 +353,7 @@ class _LoginPageState extends State<LoginPage> {
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ).show(context).then(
               (value) => {
+                // #6.1 navigate to home page.
                 // navigate to Homepage
                 // Navigator.pushReplacement(
                 //   context,
@@ -354,7 +362,7 @@ class _LoginPageState extends State<LoginPage> {
                 //   ),
                 // ),
 
-                // #6 push to home page.
+                // #6.2 navigate to home page with named route.
                 Navigator.pushReplacementNamed(
                   context,
                   myRoute.Route.home,
