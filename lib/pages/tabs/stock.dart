@@ -1,17 +1,66 @@
+import 'package:demo_fllutter_cmdev/api/network_service.dart';
+import 'package:demo_fllutter_cmdev/api/post_data.dart';
 import 'package:demo_fllutter_cmdev/models/productItem.dart';
 import 'package:flutter/material.dart';
 
-class Stock extends StatelessWidget {
+class Stock extends StatefulWidget {
+  @override
+  _StockState createState() => _StockState();
+}
+
+class _StockState extends State<Stock> {
   final spacing = 4.0;
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<List<Post>>(
+      future: NetworkService().fatchPosts(0),
+      builder: (context, snapshot) {
+        // has data
+        if (snapshot.hasData) {
+          List<Post> post = snapshot.data;
+          if (post == null || post.isEmpty) {
+            return Container(
+              margin: EdgeInsets.only(top: 22),
+              alignment: Alignment.topCenter,
+              child: Text('No data'),
+            );
+          }
+          return RefreshIndicator(
+            // work on list only.
+            onRefresh: () async {
+              setState(() {});
+            },
+            child: buildProductGridView(post),
+          );
+        }
+
+        // has error
+        if (snapshot.hasError) {
+          return Container(
+            margin: EdgeInsets.only(top: 22),
+            alignment: Alignment.topCenter,
+            child: Text(snapshot.error.toString()),
+          );
+        }
+
+        // loading..
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+
+  // # This method is for building products with gridview layout.
+  GridView buildProductGridView(List<Post> post) {
     return GridView.builder(
+      itemCount: post.length,
       padding: EdgeInsets.only(
         left: spacing,
         right: spacing,
         top: spacing,
-        bottom: 100,
+        bottom: 50,
       ),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -24,7 +73,6 @@ class Stock extends StatelessWidget {
           return ProductItem(constraints.maxHeight);
         },
       ),
-      itemCount: 5,
     );
   }
 }
