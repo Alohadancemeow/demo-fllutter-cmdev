@@ -20,6 +20,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    // ! error
     // # Recieve arguments from login page.
     // final Map<Object, Object> arguments =
     //     ModalRoute.of(context).settings.arguments;
@@ -43,17 +44,6 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Scaffold(
         appBar: buildAppBar(_tabsMenu),
         drawer: CustomDrawer(),
-        // body: Column(
-        //   children: [
-        //     Image.asset(Assets.LOGO_IMAGE),
-        //     ElevatedButton(
-        //       onPressed: () {
-        //         Navigator.pushReplacementNamed(context, myRoute.Route.login);
-        //       },
-        //       child: Text('Back to login'),
-        //     )
-        //   ],
-        // ),
         body: TabBarView(
           // tabbarview = fragments
           children: _tabsMenu
@@ -66,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  // # This method is for setting appbar.
   AppBar buildAppBar(List<TabMenu> _tabsMenu) {
     return AppBar(
       title: Text(widget.title),
