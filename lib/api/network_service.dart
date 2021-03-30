@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:demo_fllutter_cmdev/api/post_data.dart';
+import 'package:demo_fllutter_cmdev/constants/api.dart';
+import 'package:demo_fllutter_cmdev/models/products.dart';
 import 'package:dio/dio.dart';
 
 class NetworkService {
@@ -20,6 +22,19 @@ class NetworkService {
 
     if (response.statusCode == 200) {
       return postFromJson(jsonEncode(response.data));
+    } else {
+      throw Exception('Network failled');
+    }
+  }
+
+  Future<List<Product>> getAllProduct() async {
+    // # Product url:
+    final url = '${API.BASE_URL}${API.PRODUCT}';
+    print(url);
+    final Response response = await _dio.get(url);
+
+    if (response.statusCode == 200) {
+      return productFromJson(jsonEncode(response.data));
     } else {
       throw Exception('Network failled');
     }

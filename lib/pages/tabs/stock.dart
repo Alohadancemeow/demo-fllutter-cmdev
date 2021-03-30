@@ -1,6 +1,7 @@
 import 'package:demo_fllutter_cmdev/api/network_service.dart';
 import 'package:demo_fllutter_cmdev/api/post_data.dart';
 import 'package:demo_fllutter_cmdev/models/productItem.dart';
+import 'package:demo_fllutter_cmdev/models/products.dart';
 import 'package:flutter/material.dart';
 
 class Stock extends StatefulWidget {
@@ -13,13 +14,13 @@ class _StockState extends State<Stock> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Post>>(
-      future: NetworkService().fatchPosts(0),
+    return FutureBuilder<List<Product>>(
+      future: NetworkService().getAllProduct(),
       builder: (context, snapshot) {
         // has data
         if (snapshot.hasData) {
-          List<Post> post = snapshot.data;
-          if (post == null || post.isEmpty) {
+          List<Product> product = snapshot.data;
+          if (product == null || product.isEmpty) {
             return Container(
               margin: EdgeInsets.only(top: 22),
               alignment: Alignment.topCenter,
@@ -31,7 +32,7 @@ class _StockState extends State<Stock> {
             onRefresh: () async {
               setState(() {});
             },
-            child: buildProductGridView(post),
+            child: buildProductGridView(product),
           );
         }
 
@@ -53,9 +54,9 @@ class _StockState extends State<Stock> {
   }
 
   // # This method is for building products with gridview layout.
-  GridView buildProductGridView(List<Post> post) {
+  GridView buildProductGridView(List<Product> product) {
     return GridView.builder(
-      itemCount: post.length,
+      itemCount: product.length,
       padding: EdgeInsets.only(
         left: spacing,
         right: spacing,
@@ -70,7 +71,7 @@ class _StockState extends State<Stock> {
       ),
       itemBuilder: (context, index) => LayoutBuilder(
         builder: (context, constraints) {
-          return ProductItem(constraints.maxHeight);
+          return ProductItem(constraints.maxHeight, product[index]);
         },
       ),
     );

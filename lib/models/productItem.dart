@@ -1,17 +1,20 @@
+import 'package:demo_fllutter_cmdev/constants/api.dart';
 import 'package:demo_fllutter_cmdev/constants/assets.dart';
 import 'package:demo_fllutter_cmdev/constants/format.dart';
 import 'package:demo_fllutter_cmdev/constants/image_notfound.dart';
+import 'package:demo_fllutter_cmdev/models/products.dart';
 import 'package:flutter/material.dart';
 
 class ProductItem extends StatelessWidget {
   final double maxHeight;
-  const ProductItem(this.maxHeight);
+  final Product product;
+  const ProductItem(this.maxHeight, this.product);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print('onTap');
+        print('onTap ${product.id}');
       },
       child: Container(
         color: Colors.white,
@@ -27,19 +30,18 @@ class ProductItem extends StatelessWidget {
 
   _buildImage() {
     final height = maxHeight * 0.7;
-    final productImage = Assets.LOGO_IMAGE;
-    // final productImage = '';
-    final stock = 1;
+    final productImage = product.image;
+    print(productImage);
     return Stack(
       children: [
         SizedBox(
           width: double.infinity,
           height: height,
           child: productImage != null && productImage.isNotEmpty
-              ? Image.asset(productImage)
+              ? Image.network("${API.IMAGE_URL}/$productImage")
               : ImageNotFound(),
         ),
-        if (stock <= 0) _buildOutOfStock(),
+        if (product.stock <= 0) _buildOutOfStock(),
       ],
     );
   }
@@ -47,13 +49,13 @@ class ProductItem extends StatelessWidget {
   Expanded _buildInfo() {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(7.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'etraset sheets containing Lorem Ipsum passages,',
+              product.name,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
@@ -61,13 +63,13 @@ class ProductItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "฿${formatCurrency.format(10000)}",
+                  "฿${formatCurrency.format(product.price)}",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  '${formatNumber.format(1100)} Pieces',
+                  '${formatNumber.format(product.stock)} Pieces',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.deepOrangeAccent,
