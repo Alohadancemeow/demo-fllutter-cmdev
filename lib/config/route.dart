@@ -7,13 +7,14 @@ class Route {
   static const home = '/home';
   static const login = '/login';
   static const dashboard = '/dashboard';
+  static const management = '/management';
 
   // # Create routes.
   static final Map<String, WidgetBuilder> _route = {
     home: (context) => MyHomePage(),
     login: (context) => LoginPage(),
     dashboard: (context) => DashBoardPage(),
-    
+    management: (context) => ManagementPage(),
   };
 
   // # GET : return rountes.

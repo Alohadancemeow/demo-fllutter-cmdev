@@ -1,8 +1,10 @@
 import 'package:demo_fllutter_cmdev/api/network_service.dart';
-import 'package:demo_fllutter_cmdev/api/post_data.dart';
 import 'package:demo_fllutter_cmdev/models/productItem.dart';
 import 'package:demo_fllutter_cmdev/models/products.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:demo_fllutter_cmdev/config/route.dart' as myRoute;
 
 class Stock extends StatefulWidget {
   @override
@@ -14,6 +16,24 @@ class _StockState extends State<Stock> {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: buildNetwork(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print('fab');
+          // push to new page, then wait it get data back.
+          Navigator.pushNamed(context, myRoute.Route.management).then((value) {
+            setState(() {});
+          });
+        },
+        child: FaIcon(
+          FontAwesomeIcons.plus,
+        ),
+      ),
+    );
+  }
+
+  FutureBuilder<List<Product>> buildNetwork() {
     return FutureBuilder<List<Product>>(
       future: NetworkService().getAllProduct(),
       builder: (context, snapshot) {
@@ -41,7 +61,8 @@ class _StockState extends State<Stock> {
           return Container(
             margin: EdgeInsets.only(top: 22),
             alignment: Alignment.topCenter,
-            child: Text(snapshot.error.toString()),
+            // child: Text(snapshot.error.toString()
+            child: Text((snapshot.error as DioError).message),
           );
         }
 

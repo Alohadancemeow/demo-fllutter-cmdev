@@ -35,6 +35,8 @@ dependencies:
   badges: ^1.2.0
   intl: ^0.17.0
   dio: ^3.0.10
+  image_picker: ^0.6.7+22
+  image_cropper: ^1.4.0
 
 dev_dependencies:
   flutter_test:

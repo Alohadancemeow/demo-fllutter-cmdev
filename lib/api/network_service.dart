@@ -1,5 +1,6 @@
 import 'dart:convert';
-
+import 'dart:io';
+import 'package:http_parser/http_parser.dart';
 import 'package:demo_fllutter_cmdev/api/post_data.dart';
 import 'package:demo_fllutter_cmdev/constants/api.dart';
 import 'package:demo_fllutter_cmdev/models/products.dart';
@@ -12,7 +13,26 @@ class NetworkService {
 
   factory NetworkService() => _instance;
 
-  static final _dio = Dio();
+  static final _dio = Dio()
+    ..interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (RequestOptions options) async {
+          options.baseUrl = API.BASE_URL;
+          print(options.baseUrl + options.path);
+
+          options.connectTimeout = 5000;
+          options.receiveTimeout = 3000;
+
+          return options;
+        },
+        onResponse: (Response response) {
+          return response;
+        },
+        onError: (DioError e) {
+          return 'Network failled, try again';
+        },
+      ),
+    );
 
   Future<List<Post>> fatchPosts(int startIndex, {int limit = 10}) async {
     final url =
@@ -27,14 +47,43 @@ class NetworkService {
     }
   }
 
+  // # GET
   Future<List<Product>> getAllProduct() async {
     // # Product url:
-    final url = '${API.BASE_URL}${API.PRODUCT}';
+    final url = API.PRODUCT;
     print(url);
     final Response response = await _dio.get(url);
 
     if (response.statusCode == 200) {
       return productFromJson(jsonEncode(response.data));
+    } else {
+      throw Exception('Network failled');
+    }
+  }
+
+  // # POST
+  Future<String> addProduct(Product product, {File imageFile}) async {
+    // # Product url:
+    final url = API.PRODUCT;
+    print(url);
+
+    // create formdata
+    FormData data = FormData.fromMap({
+      'name': product.name,
+      'price': product.price,
+      'stock': product.stock,
+      if (imageFile != null)
+        'photo': await MultipartFile.fromFile(
+          imageFile.path,
+          contentType: MediaType('image', 'jpg'),
+        )
+    });
+
+    // post : add data to database
+    final Response response = await _dio.post(url, data: data);
+
+    if (response.statusCode == 201) {
+      return 'Add Successfully';
     } else {
       throw Exception('Network failled');
     }

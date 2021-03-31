@@ -1,11 +1,6 @@
-import 'package:demo_fllutter_cmdev/config/route.dart' as myRoute;
-import 'package:demo_fllutter_cmdev/constants/assets.dart';
 import 'package:demo_fllutter_cmdev/models/tabbar_view_model.dart';
 import 'package:demo_fllutter_cmdev/pages/home/drawer.dart';
-import 'package:demo_fllutter_cmdev/pages/tabs/chart.dart';
 import 'package:demo_fllutter_cmdev/pages/tabs/custom_tab.dart';
-import 'package:demo_fllutter_cmdev/pages/tabs/report.dart';
-import 'package:demo_fllutter_cmdev/pages/tabs/stock.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {

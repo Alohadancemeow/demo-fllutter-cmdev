@@ -1,5 +1,4 @@
 import 'package:demo_fllutter_cmdev/constants/api.dart';
-import 'package:demo_fllutter_cmdev/constants/assets.dart';
 import 'package:demo_fllutter_cmdev/constants/format.dart';
 import 'package:demo_fllutter_cmdev/constants/image_notfound.dart';
 import 'package:demo_fllutter_cmdev/models/products.dart';

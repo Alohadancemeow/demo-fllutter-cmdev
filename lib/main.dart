@@ -1,5 +1,4 @@
 import 'package:demo_fllutter_cmdev/config/route.dart' as myRoute;
-import 'package:demo_fllutter_cmdev/pages/login/login_page.dart';
 import 'package:demo_fllutter_cmdev/pages/pages_index.dart';
 import 'package:flutter/material.dart';
 
