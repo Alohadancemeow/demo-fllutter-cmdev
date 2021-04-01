@@ -1,4 +1,5 @@
 import 'package:badges/badges.dart';
+import 'package:demo_fllutter_cmdev/config/route.dart' as myRoute;
 import 'package:demo_fllutter_cmdev/models/drawer_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -49,6 +50,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               child: Text('Logout'),
               onPressed: () {
                 Navigator.of(context).pop();
+                Navigator.of(context).pushNamed(myRoute.Route.login);
               },
             ),
           ],
