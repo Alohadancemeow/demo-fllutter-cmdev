@@ -88,4 +88,48 @@ class NetworkService {
       throw Exception('Network failled');
     }
   }
+
+  // # PUT
+  Future<String> editProduct(Product product, {File imageFile}) async {
+    // # Product url:
+    final url = "${API.PRODUCT}/${product.id}";
+    print(url);
+
+    // create formdata
+    FormData data = FormData.fromMap({
+      'name': product.name,
+      'price': product.price,
+      'stock': product.stock,
+      if (imageFile != null)
+        'photo': await MultipartFile.fromFile(
+          imageFile.path,
+          contentType: MediaType('image', 'jpg'),
+        )
+    });
+
+    // put : edit data
+    final Response response = await _dio.put(url, data: data);
+
+    if (response.statusCode == 200) {
+      return 'Edit Successfully';
+    } else {
+      throw Exception('Network failled');
+    }
+  }
+
+  // # DELETE
+  Future<String> delteProduct(int productId) async {
+    // # Product url:
+    final url = "${API.PRODUCT}/$productId";
+    print(url);
+
+    // delete : delete data
+    final Response response = await _dio.delete(url);
+
+    if (response.statusCode == 204) {
+      return 'Delete Successfully';
+    } else {
+      throw Exception('Network failled');
+    }
+  }
 }

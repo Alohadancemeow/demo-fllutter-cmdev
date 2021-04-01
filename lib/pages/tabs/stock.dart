@@ -75,9 +75,9 @@ class _StockState extends State<Stock> {
   }
 
   // # This method is for building products with gridview layout.
-  GridView buildProductGridView(List<Product> product) {
+  GridView buildProductGridView(List<Product> products) {
     return GridView.builder(
-      itemCount: product.length,
+      itemCount: products.length,
       padding: EdgeInsets.only(
         left: spacing,
         right: spacing,
@@ -92,7 +92,21 @@ class _StockState extends State<Stock> {
       ),
       itemBuilder: (context, index) => LayoutBuilder(
         builder: (context, constraints) {
-          return ProductItem(constraints.maxHeight, product[index]);
+          final product = products[index];
+          return ProductItem(
+            constraints.maxHeight,
+            product,
+            onTap: () {
+              // push to management page
+              Navigator.pushNamed(
+                context,
+                myRoute.Route.management,
+                arguments: product,
+              ).then((value) {
+                setState(() {});
+              });
+            },
+          );
         },
       ),
     );

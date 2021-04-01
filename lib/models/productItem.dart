@@ -7,14 +7,24 @@ import 'package:flutter/material.dart';
 class ProductItem extends StatelessWidget {
   final double maxHeight;
   final Product product;
-  const ProductItem(this.maxHeight, this.product);
+
+  final VoidCallback onTap;
+  const ProductItem(this.maxHeight, this.product,{this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        print('onTap ${product.id}');
-      },
+      onTap: onTap,
+      // onTap: () {
+      //   print('onTap ${product.id}');
+
+      //   // push to management page
+      //   Navigator.pushNamed(
+      //     context,
+      //     myRoute.Route.management,
+      //     arguments: product,
+      //   );
+      // },
       child: Container(
         color: Colors.white,
         child: Column(
